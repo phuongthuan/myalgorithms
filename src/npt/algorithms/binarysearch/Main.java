@@ -13,30 +13,58 @@ public class Main {
             System.out.println("Found number exists at index: " + index);
         }
 
-        System.out.println("==========================");
+        System.out.println("==========================\n");
         /*
          * Giving an array: A = [2, 4, 10, 10, 10, 18, 20]
          * Find the first number 10 in array.
          */
         int B[] = {2, 4, 10, 10, 10, 18, 20};
 
-        int findFirst = findFirstOccurrence(B, 7, 10);
+        int findFirst = findOccurrence(B, 7, 10, true); //findFirst.
 
         if (findFirst != -1) {
             System.out.println("Found first number exists at index: " + findFirst);
         }
 
-        System.out.println("==========================");
+        System.out.println("==========================\n");
         /*
          * Giving an array: C[] = {2, 4, 10, 10, 10, 10, 10, 18, 20};
          * Find the last number 10 in array.
          */
         int C[] = {2, 4, 10, 10, 10, 10, 10, 18, 20};
-        int findLast = findLastOccurrence(C, 9, 10);
+        int findLast = findOccurrence(C, 9, 10, false); //findLast.
 
         if (findLast != -1) {
             System.out.println("Found last number exists at index: " + findLast);
         }
+
+
+        System.out.println("==========================\n");
+        /*
+         * Count occurrences of a number in a sorted
+         * array with duplicates using Binary Search.
+         *
+         * Giving an array: X[] = {1,1,3,3,5,5,5,5,5,9,9,11};
+         */
+        int X[] = {1,1,3,3,5,5,5,5,5,9,9,11};
+        int firstIndex = findOccurrence(X, 12, 5, true); //findFirst
+
+        if (firstIndex == -1) {
+            System.out.println("Count of 5 is 0");
+        } else {
+            int lastIndex = findOccurrence(X, 12, 5, false); //findLast
+            int count = lastIndex - firstIndex + 1;
+            System.out.println("Count of 5 is: " + count); // Expect 5.
+        }
+
+
+
+
+
+
+
+
+
     }
 
     /**
@@ -74,33 +102,10 @@ public class Main {
     }
 
     /**
-     * Giving an array: B[] = {2, 4, 10, 10, 10, 18, 20};
-     * Find the first number 10 in array.
-     */
-    static int findFirstOccurrence(int A[], int size, int x) {
-        int low = 0;
-        int high = size-1;
-        int result = -1;
-
-        while (low <= high) {
-            int mid = low + (high-low)/2; // (low+high) may overflow.
-            if (x == A[mid]) {
-                result = mid;
-                high = mid - 1; // continue search in left by decrease high index.
-            } else if (x > A[mid]) {
-                low = mid + 1;
-            } else {
-                high = mid -1;
-            }
-        }
-        return result;
-    }
-
-    /**
      * Giving an array: B[] = {2, 4, 10, 10, 10, 10, 10, 18, 20};
      * Find the last number 10 in array.
      */
-    static int findLastOccurrence(int A[], int size, int x) {
+    static int findOccurrence(int A[], int size, int x, boolean findFirst) {
         int low = 0;
         int high = size-1;
         int result = -1;
@@ -109,14 +114,15 @@ public class Main {
             int mid = low + (high-low)/2; // (low+high) may overflow.
             if (x == A[mid]) {
                 result = mid;
-                low = mid + 1; // continue search in right by increase low index.
-            } else if (x > A[mid]) {
-                low = mid + 1;
-            } else {
-                high = mid -1;
+                if (findFirst) {
+                    high = mid-1; // continue search first.
+                } else {
+                    low = mid + 1; // continue search last.
+                }
             }
+            else if (x > A[mid]) low = mid + 1;
+            else high = mid -1;
         }
         return result;
     }
-
 }
