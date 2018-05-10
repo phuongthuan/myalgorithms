@@ -11,7 +11,6 @@ public class SelectionSort {
         }
     }
 
-
     /**
      * Selection Sort. Lowest Sort. It take O(n^2) time complexity.
      */
